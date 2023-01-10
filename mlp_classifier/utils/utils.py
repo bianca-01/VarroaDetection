@@ -25,3 +25,11 @@ def read_img2(path): #skimage
     img = imread(path)
     img = rgb2gray(img)
     return img
+
+def load_pickle(file):
+    try:
+        with open(file, 'rb') as f:
+            return pickle.load(f)
+    except:
+        print('File not found')
+        return None  
