@@ -17,11 +17,7 @@ def read_json(path):
         paths = json.load(json_file)
     return paths
 
-def read_img(path): #opencv
-    img = cv2.imread(path,0)
-    return img
-
-def read_img2(path): #skimage
+def read_img(path): #skimage
     img = imread(path)
     img = rgb2gray(img)
     return img

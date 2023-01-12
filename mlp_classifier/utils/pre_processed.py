@@ -34,7 +34,7 @@ def pre_processamento(path, metadata, funcao, parametros=None):
     imgs = []
 
     for i in tqdm_notebook(metadata.index):
-        img = read_img2(path+metadata['image'][i])
+        img = read_img(path+metadata['image'][i])
 
         
         if parametros is None:
