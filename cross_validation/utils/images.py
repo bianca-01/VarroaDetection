@@ -1,10 +1,11 @@
 import pandas as pd
 import numpy as np
 from tqdm.notebook import tqdm_notebook
+from numba import jit, cuda
 
 from skimage.io import imread_collection
 
-from utils.pre_processed import alargamento, otsu
+from utils.pre_processed import equalizacao, filtro_mediana, otsu, segmentar
 
 class Images:
     def __init__(self, metadata):
@@ -12,7 +13,9 @@ class Images:
         self.imgs = []
         self.labels = metadata['label'].to_numpy()
         self.imgs_normalized = []
+        self.imgs_equalized = []
         self.imgs_processed = []
+        self.masks = []
         self.imgs_segmented = []
         self.feats = {}
         self.load()
@@ -34,15 +37,22 @@ class Images:
             self.imgs_normalized.append(img_normalized)
 
 
-    def pre_process(self):
+    def equalize(self):
         for img in tqdm_notebook(self.imgs_normalized):
-            img_processed = alargamento(img, 1, 2)
+            img_equalized = equalizacao(img)
+            self.imgs_equalized.append(img_equalized)
+            
+    def filter_median(self):
+        for img in tqdm_notebook(self.imgs_equalized):
+            img_processed = filtro_mediana(img)
             self.imgs_processed.append(img_processed)
 
 
     def segment(self):
         for img in tqdm_notebook(self.imgs_processed):
-            img_segmented = otsu(img)
+            mask = otsu(img)
+            img_segmented = segmentar(img, mask)
+            self.masks.append(mask)
             self.imgs_segmented.append(img_segmented)
 
 
