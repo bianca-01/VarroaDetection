@@ -1,5 +1,5 @@
 import numpy as np
-from skimage.filters import threshold_otsu, median
+from skimage.filters import threshold_otsu
 from skimage.util import invert
 from skimage.exposure import equalize_hist
 
@@ -14,13 +14,6 @@ def equalizacao(imagem):
         img_eq = equalize_hist(imagem)
 
     return img_eq
-
-
-def filtro_mediana(imagem):
-    img_mediana = np.zeros_like(imagem)
-    for d in range(imagem.shape[2]):
-        img_mediana[:,:,d] = median((imagem[:,:,d]*255).astype(np.uint8))/255.0 
-    return img_mediana
 
 
 def otsu(img):
