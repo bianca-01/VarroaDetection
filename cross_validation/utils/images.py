@@ -1,8 +1,9 @@
 import numpy as np
 from tqdm.notebook import tqdm_notebook
 from skimage.io import imread
-from utils.pre_processed import equalizacao, otsu, segmentar, filtro_mediana
-from utils.feature_extraction import extract_features, pca
+
+from utils.pre_processed import equalizacao, otsu, segmentar
+from utils.feature_extraction import extract_features
 
 class Images:
     def __init__(self, metadata):
@@ -20,6 +21,7 @@ class Images:
 
     def load(self):
         self.imgs = [imread(path) for path in self.path]
+        
         
         saudaveis = len(self.labels[self.labels == 0])
         infectadas = len(self.labels[self.labels == 1])
@@ -60,12 +62,6 @@ class Images:
         
         self.feats[index] = extract_features(descritor, imgs)
 
-
-    def run_pca(self):
-        components = [3, 5, 7, 9]
-        for comp in tqdm_notebook(components):
-            for key in tqdm_notebook(self.feats.keys()):
-                self.pca[f'{key}_pca_{comp}'] = pca(self.feats[key], comp)
 
     
     

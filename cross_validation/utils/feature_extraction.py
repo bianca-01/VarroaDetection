@@ -1,7 +1,6 @@
 import numpy as np
-from skimage.feature import graycomatrix, graycoprops, local_binary_pattern, hog
+from skimage.feature import graycomatrix, graycoprops, hog
 from scipy.stats import skew, kurtosis, entropy
-from sklearn.decomposition import PCA
 from tqdm.notebook import tqdm_notebook
 
 def extract_features(descritor, imgs):
@@ -60,6 +59,3 @@ def descritor_hog(imagem):
     return np.array(features).flatten()
 
 
-def pca(x, components=2):
-    reducer = PCA(n_components=components)
-    return reducer.fit_transform(x)
